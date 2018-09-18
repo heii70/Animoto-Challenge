@@ -1,0 +1,18 @@
+{
+    "name": "William Gao",
+    "contact_details": {
+        "phone": "646 371 2652",
+        "website": "https://heii70.github.io/",
+        "email": "williamgao70@yahoo.com",
+        "other": [
+            {
+                "type": "github",
+                "value": "heii70"
+            }
+        ]
+    },
+    "content": {
+        "letter_body": "Dear Animoto,\n\nMy interest in applying to this position is driven by my desire to learn and familiarize myself with more software technologies and utilizing them to create programs that provide solutions to real life problems. I want to use this opportunity to further my programming skills and work experience.\n\nThere are a number strengths that would make me a competitive candidate for this position. I have obtained strong fundamentals in automation testing from my previous role as a test analyst consultant. I also have a strong background in coding from my academics and bootcamp courses. I am capable of working effectively both independently as well as collaboratively in team settings. I have learned that the field of technology requires one to think long term, that building a solution one way may not scale months into the future. However, I have also come to realize unpredictable situations arise requiring me to be flexible.\n\nI have much more to learn and experience in the software engineering field and it would be a privilege to grow with Animoto. To demonstrate my commitment, I have taken the liberty to create an automation test script that completes this challenge via code. This code can be viewed on my Github in the following link: https://github.com/heii70/Animoto-Tester-Challenge . In evaluating my Resume and project challenge, I hope you will be confident in my abilities to perform the duties of this position. I thank you for your consideration and hope to hear from you soon.\n\n sincerely, William Gao",
+        "challenge_checkvalue": "162329778993"
+    }
+}

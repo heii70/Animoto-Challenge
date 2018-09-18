@@ -1,11 +1,10 @@
 package com.project.AnimotoChallenge;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.regex.Pattern;
 
 import org.json.simple.JSONArray;
@@ -13,67 +12,47 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-public class CoverLetterVerification {
+public class PersonalValidation {
 	
-	private final String apiUrl = "https://wd51nn4ogc.execute-api.us-east-1.amazonaws.com/cover_letters?id=";
-//	private String id = "80";
-	
-	@DataProvider
-	public static Object[][] setId() {
-		Object[][] idList = new Object[100][1];
-		
-		for(int i = 0; i < 100; i++) {
-			idList[i][0] = String.format("%02d", i);
-		}
-		return idList;
-	}
-	
-	@Test(dataProvider="setId")
-	public void invalidIdDetector(String id) {
-		// set apiUrl connection and send GET request to API
+	@Test
+	public void invalidIdDetector() {
 		
 		try {
-			URL apiUrlObject = new URL(apiUrl + id);
-					
-			HttpURLConnection con = (HttpURLConnection) apiUrlObject.openConnection();
-			con.setRequestMethod("GET");
-					
-			// read JSON response and store in a StringBuilder object
-			BufferedReader in = new BufferedReader(
-				new InputStreamReader(con.getInputStream())
-			); 
+			File file = new File("cover_letter.json"); 
+						
+			// read JSON file and store in a StringBuilder object
+			BufferedReader in = new BufferedReader(new FileReader(file));
 				
 			String inputLine;
-			StringBuffer response = new StringBuffer();
+			StringBuffer coverLetterBuffer = new StringBuffer();
 			    
 			while ((inputLine = in.readLine()) != null) {
-				response.append(inputLine);
+				coverLetterBuffer.append(inputLine);
 			}
 			    
 			in.close();
 					 
 			// Initialize JSON parser and declare object handles
-			String jsonResponse = response.toString();
+			String coverLetter = coverLetterBuffer.toString();
 			JSONParser jsonParser = new JSONParser();
-			Object parsedResponseObject;
-			//ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-			//PrintWriter out = new PrintWriter("out" + id +".json");
+			Object parsedObject;
+			ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+			PrintWriter out = new PrintWriter("out.json");
 		
 			// parse response and store return value in object handle
-			parsedResponseObject = jsonParser.parse(jsonResponse);
+			parsedObject = jsonParser.parse(coverLetter);
 			
-//			String parsedResponsePretty = mapper.writeValueAsString(parsedResponseObject);
-//			out.println(parsedResponsePretty);
-//			out.close();
+			String parsedObjectPretty = mapper.writeValueAsString(parsedObject);
+			out.println(parsedObjectPretty);			
+			out.close();
 			
 			// retrieve JSON nested object values from keys
-			JSONObject jsonResponseObject = (JSONObject) parsedResponseObject;
+			JSONObject jsonResponseObject = (JSONObject) parsedObject;
 			String name = jsonResponseObject.get("name").toString().trim();
 			JSONObject contactDetails = (JSONObject) jsonResponseObject.get("contact_details");
 			JSONObject content = (JSONObject) jsonResponseObject.get("content");
@@ -210,7 +189,7 @@ public class CoverLetterVerification {
 			}
 		}
 		catch (NullPointerException | AssertionError e) {
-			System.out.println(id);
+			System.out.println("Cover Letter Invalid");
 		}
 		catch (IOException | ParseException e) {
 			e.printStackTrace();
